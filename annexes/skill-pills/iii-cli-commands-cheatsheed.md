@@ -126,8 +126,6 @@ The `FastEthernet2` or `f2` interface has been split into two to have a connecti
 
 5. ### VLAN creation and assignation to intended interfaces
 
-
-
 ```
 Switch1> en (enable)
 Switch1# conf t (configure terminal)
@@ -151,12 +149,57 @@ Switch-1(config-if-range)# exit
 ```
 
 {% hint style="success" %}
-Azalpena: Switchean interfazeak jartzen dira ACCESS edo TRUNK eran, beharren arabera.&#x20;
+Interfaces are set as **access (single)** or **trunk (any)** depending in the VLANs they will manage.&#x20;
 {% endhint %}
 
-6. ### Sarbide zerrendak (Access Lists edo ACL)
+6. ### Bridge-group
 
-IP BIDEZ EDO INTERFAZEEN BIDEZ VLAN BATERAKO SARBIDEA MOZTEA ZEIN BERTATIK ATERABIDEA
+Cut the connection to a network (or VLAN) using its IP/interface/range
+
+```
+Router> enable
+Router# configure terminal
+
+! IRB zerbitzua eta zubiaren protokoloa aktibatu
+Router(config)# bridge irb
+Router(config)# bridge 1 protocol ieee
+Router(config)# bridge 1 route ip
+
+! EZKERREKO ALDEA: PC0 eta PC1 dauden switch-era doan portua
+Router(config)# interface gigabitEthernet 0/1
+Router(config-if)# no shutdown
+Router(config-if)# bridge-group 1
+Router3(config-if)# exit
+
+! ESKUINEKO ALDEA: Switch0-ra doan VLAN 10eko azpi-interfazea
+Router(config)# interface gigabitEthernet 0/0.10
+Router(config-subif)# encapsulation dot1Q 10
+Router(config-subif)# bridge-group 1
+Router(config-subif)# exit
+
+! BVI interfazea konfiguratu
+Router(config)# interface bvi 1
+Router(config-if)# ip address 192.168.10.1 255.255.255.0
+Router(config-if)# no shutdown
+Router(config-if)# end
+
+! Konfigurazioa memorian gorde
+Router# write memory
+
+Router# show bridge
+```
+
+{% hint style="success" %}
+Cisco bideratzaile batean (Router) bi interfaze fisikok (edo azpi-interfazek) zubi baten moduan jokatu dezaten eta IP rango bera partekatu dezaten, IRB (Integrated Routing and Bridging) protokoloa aktibatu behar da.
+{% endhint %}
+
+{% hint style="danger" %}
+Interfaze fisikoak zubi-taldean daudenez, ezin zaie IP helbiderik jarri. Horren ordez, BVI (Bridge Virtual Interface) izeneko interfaze birtual bat sortzen da. Interfaze honen IPa izango da VLAN 10eko ordenagailu guztien Gateway (Atebidea).
+{% endhint %}
+
+6. ### Access Lists (ACL)
+
+Cut the connection to a network (or VLAN) using its IP/interface/range
 
 ```
 ROUTER> en (enable)
