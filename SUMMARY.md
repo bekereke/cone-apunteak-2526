@@ -16,6 +16,7 @@
   * [1.4 Units of Computer Memory Measurements](challenge-1/networking-features-and-interconnection-elements/1.4-units-of-computer-memory-measurements.md)
   * [1.5 Transmission Modes](challenge-1/networking-features-and-interconnection-elements/1.5-transmission-modes.md)
   * [1.6 Computer Network Models](challenge-1/networking-features-and-interconnection-elements/1.6-computer-network-models.md)
+  * [1.7 Exercises](challenge-1/networking-features-and-interconnection-elements/1.7-exercises.md)
   * [Review](challenge-1/networking-features-and-interconnection-elements/review.md)
   * [Sources](challenge-1/networking-features-and-interconnection-elements/sources.md)
 * [Deploying Ethernet cabling](challenge-1/deploying-ethernet-cabling/README.md)
